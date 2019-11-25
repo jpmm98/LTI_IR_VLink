@@ -1,0 +1,32 @@
+package com.company;
+
+public class Main {
+
+
+    public static void main(String[] args) throws Exception {
+        // Menu m = new Menu();
+        byte x=0;
+        String fName;
+
+
+        //Scanner scan = new Scanner(System.in);
+        //System.out.println("Insira o nome do ficheiro que pretende enviar\n");
+        //fName = scan.nextLine();
+        Packet p = new Packet("COM1",9600,"fastcar.txt");
+        p.sendPacket();
+
+
+
+    /*
+    Header h = new Header((byte)000);
+    for(int i=0; i<h.getHeader().length; i++){
+        h.getHeader();
+        System.out.println(h.getHeader()[i] & 0xFF);
+
+    }
+*/
+
+    }
+
+
+}
