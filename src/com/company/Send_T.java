@@ -18,6 +18,7 @@ public class Send_T {
         byte [] packet = d.getDataPacket();
         d.resetOutStream();
 
+        System.out.println("Trama : ");
         for(int i = 0; i<packet.length; i++){
             System.out.print((Integer.toHexString(packet[i] & 0xFF) )+" ");
         }

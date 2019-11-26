@@ -51,14 +51,16 @@ public class ComPort {
                 }
 
                 byte[] readBuffer = new byte[sPort.bytesAvailable()];
-                sPort.readBytes(readBuffer,readBuffer.length);
-                System.out.println("\nACK LIDO\n");
+                sPort.readBytes(readBuffer,4);
+                t = readBuffer;
 
             }catch(Exception e){e.printStackTrace();}
         }
-            sPort.readBytes(t,4);
-        System.out.println("\n T POS [1] = "+t[1]+" \n");
-        System.out.println(t[1] == ack);
+
+        System.out.println("\nResponse received: ");
+        for(int i = 0;i<t.length;i++){
+            System.out.print(t[i]);
+        }
             return (t[1] == ack);
         }
 

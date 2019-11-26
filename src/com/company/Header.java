@@ -38,9 +38,6 @@ public class Header {
             case 0: System.out.println("Trama de Informação");
             case 1: System.out.println("ACK - Acknowledge");
             case 2: System.out.println("NACK");
-            case 3: System.out.println("POLL");
-            case 4: System.out.println("SELECT");
-            case 5: System.out.println("FIM da trama");
         }
         return type;}
 
