@@ -38,7 +38,7 @@ public class Packet {
                 }
 
 
-            }while (this.cp.receiveConf() || this.cp.getBytesAv() <= 8);
+            }while (this.cp.receiveConf() || this.cp.getBytesAv() >= 8);
 
     }
 }
