@@ -1,10 +1,13 @@
 package com.company;
 
+import static com.company.FRead.DataSize;
+
 public class Packet {
 
     private ComPort cp;
     FRead fr;
     byte sq;
+    boolean flag = true;
 
 
     public Packet(String PortName, int BaudBRate, String FileName) throws Exception {
@@ -32,13 +35,19 @@ public class Packet {
                         this.sq = 0;
                     }
 
+                    if(pack.length < DataSize+8){
+                        this.flag=false;
+                    }
+
+                    System.out.println("\nBytes availables :"+pack.length);
                 } catch (Exception e) {
                     System.out.println("Erro no envio!");
                     e.printStackTrace();
                 }
 
 
-            }while (this.cp.receiveConf() || this.cp.getBytesAv() > 8);
+
+            }while (this.flag  && this.cp.receiveConf());
 
     }
 }
