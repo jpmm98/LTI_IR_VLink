@@ -18,8 +18,6 @@ public class Packet {
 
     public void sendPacket() throws Exception {
 
-        do {
-
 
             do {
                 try {
@@ -40,8 +38,7 @@ public class Packet {
                 }
 
 
-            }while (this.cp.receiveConf());
+            }while (this.cp.receiveConf() || this.cp.getBytesAv() <= 8);
 
-        }while (!this.fr.endOfFile());
     }
 }

@@ -41,8 +41,8 @@ public class ComPort {
 
         byte[] t = new byte[4];
         byte ack = 1;
-        this.sPort.openPort();
-        if (this.sPort.isOpen()){
+
+        if (this.sPort.openPort()){
 
             try {
 
@@ -52,14 +52,17 @@ public class ComPort {
 
                 byte[] readBuffer = new byte[sPort.bytesAvailable()];
                 sPort.readBytes(readBuffer,readBuffer.length);
+                System.out.println("\nACK LIDO\n");
 
             }catch(Exception e){e.printStackTrace();}
         }
             sPort.readBytes(t,4);
-            return t[1] == ack;
+        System.out.println("\n T POS [1] = "+t[1]+" \n");
+        System.out.println(t[1] == ack);
+            return (t[1] == ack);
         }
 
 
-
+    public int getBytesAv(){ return this.sPort.bytesAvailable(); }
 
 }
