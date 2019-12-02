@@ -37,10 +37,9 @@ public class ComPort {
         return null;
     }
 
-    public boolean receiveConf() {
+    public byte receiveConf() {
 
         byte[] t = new byte[4];
-        byte ack = 1;
 
         if (this.sPort.openPort()){
 
@@ -61,7 +60,7 @@ public class ComPort {
         for(int i = 0;i<t.length;i++){
             System.out.print(t[i]);
         }
-            return (t[1] == ack);
+            return t[1];
         }
 
 

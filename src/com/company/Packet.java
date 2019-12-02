@@ -27,7 +27,11 @@ public class Packet {
 
                     Send_T sendTrama = new Send_T();
                     byte[] pack = sendTrama.dataT(fr.getData(), this.sq);
+
                     this.cp.send(pack, pack.length);
+                    while(this.cp.receiveConf() != (byte)1){
+                        this.cp.send(pack,pack.length);
+                    }
 
                     if (sq == 0) {
                         this.sq = 1;
@@ -47,7 +51,7 @@ public class Packet {
 
 
 
-            }while (this.flag  && this.cp.receiveConf());
+            }while (this.flag);
 
     }
 }
