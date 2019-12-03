@@ -12,7 +12,7 @@ public class Main {
         //Scanner scan = new Scanner(System.in);
         //System.out.println("Insira o nome do ficheiro que pretende enviar\n");
         //fName = scan.nextLine();
-        Packet p = new Packet("COM1",9600,"fastcar.txt");
+        Packet p = new Packet("COM3",9600,"fastcar.txt");
         p.sendPacket();
 
 

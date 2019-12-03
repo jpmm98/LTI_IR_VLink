@@ -22,9 +22,14 @@ public class ComPort {
     public boolean portStatus()     {return this.sPort.openPort();}
 
     public void send(byte[] packet, int size){
-        if (this.sPort.isOpen()){
-            sPort.writeBytes(packet,(long)size);
+        int[] timer = new int[100];
+
+        while (!this.sPort.isOpen()){
+            this.reconect();
         }
+            sPort.writeBytes(packet,(long)size);
+
+
     }
 
 
@@ -63,6 +68,24 @@ public class ComPort {
             return t[1];
         }
 
+    public void reconect(){
+        int[] timer = new int[100];
+        System.out.println("\nTrying to open port...");
+
+        for (int t: timer) {
+            while(!this.sPort.isOpen()){
+
+                try{
+                    this.sPort.openPort();
+                    System.out.print(".");
+                    Thread.sleep(1000);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 
     public int getBytesAv(){ return this.sPort.bytesAvailable(); }
 
