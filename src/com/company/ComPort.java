@@ -9,34 +9,39 @@ public class ComPort {
     private int baudrate;
 
 
-    public ComPort(String nomePorta, int baudRate){
+    public ComPort(String nomePorta, int baudRate) {
         this.portN = nomePorta;
         this.baudrate = baudRate;
 
         this.sPort = SerialPort.getCommPort(this.portN);
         this.sPort.openPort();
-        this.sPort.setComPortParameters(this.baudrate,8, 1, 0);
+        this.sPort.setComPortParameters(this.baudrate, 8, 1, 0);
 
     }
 
-    public boolean portStatus()     {return this.sPort.openPort();}
+    public boolean portStatus() {
+        return this.sPort.openPort();
+    }
 
-    public void send(byte[] packet, int size){
-        int[] timer = new int[100];
+    public void send(byte[] packet, int size) {
 
-        while (!this.sPort.isOpen()){
+
+        try {
+            sPort.writeBytes(packet, (long) size);
+
+        } catch (Exception e) {
+            this.sPort.closePort();
             this.reconect();
+            this.send(packet, size);
         }
-            sPort.writeBytes(packet,(long)size);
-
 
     }
 
 
-    public byte[] receive(int tamanho){
+    public byte[] receive(int tamanho) {
         byte[] pacote = new byte[tamanho];
-        if (this.sPort.isOpen()){
-            sPort.readBytes(pacote,tamanho);
+        if (this.sPort.isOpen()) {
+            sPort.readBytes(pacote, tamanho);
             return pacote;
         }
         return null;
@@ -46,7 +51,7 @@ public class ComPort {
 
         byte[] t = new byte[4];
 
-        if (this.sPort.openPort()){
+        if (this.sPort.openPort()) {
 
             try {
 
@@ -55,31 +60,39 @@ public class ComPort {
                 }
 
                 byte[] readBuffer = new byte[sPort.bytesAvailable()];
-                sPort.readBytes(readBuffer,4);
+                sPort.readBytes(readBuffer, 4);
+
+
                 t = readBuffer;
 
-            }catch(Exception e){e.printStackTrace();}
+            } catch (Exception e) {
+                e.printStackTrace();
+                this.sPort.closePort();
+                this.reconect();
+                this.receiveConf();
+
+            }
         }
 
         System.out.println("\nResponse received: ");
-        for(int i = 0;i<t.length;i++){
+        for (int i = 0; i < t.length; i++) {
             System.out.print(t[i]);
         }
-            return t[1];
-        }
+        return t[1];
+    }
 
-    public void reconect(){
+    public void reconect() {
         int[] timer = new int[100];
         System.out.println("\nTrying to open port...");
 
-        for (int t: timer) {
-            while(!this.sPort.isOpen()){
+        for (int t : timer) {
+            while (!this.sPort.isOpen()) {
 
-                try{
+                try {
                     this.sPort.openPort();
                     System.out.print(".");
                     Thread.sleep(1000);
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -87,6 +100,7 @@ public class ComPort {
         }
     }
 
-    public int getBytesAv(){ return this.sPort.bytesAvailable(); }
-
+    public int getBytesAv() {
+        return this.sPort.bytesAvailable();
+    }
 }

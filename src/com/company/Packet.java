@@ -8,12 +8,14 @@ public class Packet {
     FRead fr;
     byte sq;
     boolean flag = true;
+    byte[] lastPacket;
 
 
     public Packet(String PortName, int BaudBRate, String FileName) throws Exception {
 
         this.cp = new ComPort(PortName, BaudBRate);
         fr = new FRead(FileName);
+
 
 
 
@@ -27,18 +29,26 @@ public class Packet {
 
                     Send_T sendTrama = new Send_T();
                     byte[] pack = sendTrama.dataT(fr.getData(), this.sq);
-
                     this.cp.send(pack, pack.length);
-                    while(this.cp.receiveConf() != (byte)1){
-                        this.cp.send(pack,pack.length);
-                    }
 
-                    if (sq == 0) {
-                        this.sq = 1;
-                    } else {
-                        this.sq = 0;
-                    }
 
+                    switch (this.cp.receiveConf()) {
+
+                        case (byte)1:
+                            lastPacket = pack;
+
+                            if (sq == 0) {
+                                this.sq = 1;
+                            } else {
+                                this.sq = 0;
+                            }
+                            break;
+                        case (byte)2:
+                            this.cp.send(lastPacket,lastPacket.length);
+                            System.out.println("Re-Sending Packet");
+                            break;
+
+                    }
                     if(pack.length < DataSize+8){
                         this.flag=false;
                     }
