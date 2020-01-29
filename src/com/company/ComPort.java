@@ -38,14 +38,6 @@ public class ComPort {
     }
 
 
-    public byte[] receive(int tamanho) {
-        byte[] pacote = new byte[tamanho];
-        if (this.sPort.isOpen()) {
-            sPort.readBytes(pacote, tamanho);
-            return pacote;
-        }
-        return null;
-    }
 
     public byte receiveConf() {
 
@@ -76,7 +68,7 @@ public class ComPort {
 
         System.out.println("\nResponse received: ");
         for (int i = 0; i < t.length; i++) {
-            System.out.print(t[i]);
+            System.out.print(t[i] +" ");
         }
         return t[1];
     }
@@ -95,6 +87,7 @@ public class ComPort {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
 
             }
         }

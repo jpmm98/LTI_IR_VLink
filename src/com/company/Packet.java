@@ -53,7 +53,7 @@ public class Packet {
                         this.flag=false;
                     }
 
-                    System.out.println("\nBytes availables :"+pack.length);
+                    System.out.println("\nBytes enviados na trama :"+pack.length);
                 } catch (Exception e) {
                     System.out.println("Erro no envio!");
                     e.printStackTrace();
